@@ -1,8 +1,11 @@
-var mongoose     = require('mongoose');
-var Schema       = mongoose.Schema;
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
 
 var PointageSchema   = new Schema({
-    name: String
+    registrationNumber: String,
+    constructionSite: String,
+    date: Date,
+    numberOfHours: Number
 });
 
 module.exports = mongoose.model('Pointage', PointageSchema);

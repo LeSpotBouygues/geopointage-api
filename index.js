@@ -1,11 +1,13 @@
 var app = require('./app');
+var mongoose = require('mongoose');
 
+mongoose.connect('mongodb://localhost/geo');
 
 // Controllers
-var collaborateurs = require('./controllers/CollaborateursController');
-var chantiers = require('./controllers/ChantiersController');
-var commentaires = require('./controllers/CommentairesController');
-var pointages = require('./controllers/PointagesController');
+var workers = require('./controllers/WorkersController');
+var sites = require('./controllers/SitesController');
+var comments = require('./controllers/CommentsController');
+var scores = require('./controllers/ScoresController');
 
 // TODO: apiVersion and port should be configurable by options params
 var apiVersion = "";
@@ -17,9 +19,9 @@ app.use(function(req, res, next) {
 });
 
 // Call routes
-app.use('/collaborateurs', collaborateurs);
-app.use('/chantiers', chantiers);
-app.use('/commentaires', commentaires);
-app.use('/pointages', pointages);
+app.use('/workers', workers);
+app.use('/sites', sites);
+app.use('/comments', comments);
+app.use('/scores', scores);
 
 app.listen(port);
