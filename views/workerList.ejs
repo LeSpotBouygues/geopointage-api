@@ -82,19 +82,36 @@
 	    </div>
 	    <!-- /.box-header -->
 	    <!-- form start -->
-	    <form id="findCompanionForUpdate" role="form">
+	    <form id="findCompanionForUpdate" role="form" action="http://localhost:8080/workers/update" method="get">
 	      <div class="box-body">
 		<div class="form-group">
 		  <label for="exampleInputFile">Select a worker</label>
-		  <select aria-hidden="true" tabindex="-1" name="selectCompanionForUpdate" id="selectCompanionForUpdate" class="form-control select2-hidden-accessible">
+ 		  <select  name="workerId" class="form-control js-example-basic-single">
+ 		    <% for(var i=0; i < workers.length; i++) {%>
+ 		       <option value="" selected="selected"></option>
+	      	    <option value="<%= workers[i]._id %>"><%= workers[i].firstName %> <%= workers[i].lastName %> <%= workers[i].registrationNumber %> </option>
+		    <% } %>
+	      	  </select>
+
+		  <!-- <select aria-hidden="true" tabindex="-1" name="selectCompanionForUpdate" id="selectCompanionForUpdate" class="select2 form-control select2-hidden-accessible"> -->
+		  <!--   <option value="AL">Alabama</option> -->
+		  <!--     <option value="WY">Wyoming</option> -->
+
+		    
+		  <!-- </select> -->
 
 
-		  </select><span style="width: 917px;" dir="ltr" class="select2 select2-container select2-container--default select2-container--below"><span class="selection"><span aria-labelledby="select2-selectCompanionForUpdate-container" tabindex="0" class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><span id="select2-selectCompanionForUpdate-container" class="select2-selection__rendered"><span class="select2-selection__placeholder">Select a member</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+
+
+		  
+ 		  <!-- <span style="width: 917px;" dir="ltr" class="select2 select2-container select2-container--default select2-container--below"><span class="selection"><span aria-labelledby="select2-selectCompanionForUpdate-container" tabindex="0" class="select2-selection select2-selection--single" role="combobox" aria-autocomplete="list" aria-haspopup="true" aria-expanded="false"><span id="select2-selectCompanionForUpdate-container" class="select2-selection__rendered"><span class="select2-selection__placeholder">Select a member</span></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span> -->
 
 		</div>
 	      </div>
 	      <!-- /.box-body -->
+		  
 
+	      
 	      <div class="box-footer">
 		<button type="submit" class="btn btn-primary">Select Workers For Update</button>
 	      </div>
@@ -124,6 +141,75 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	      
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
@@ -141,110 +227,17 @@
                 </tr>
                 </thead>
                 <tbody>
+<% for(var i=0; i < workers.length; i++) {%>
                 <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
+                  <td><%= workers[i].registrationNumber %></td>
+                  <td><%= workers[i].firstName %></td>
+                  <td><%= workers[i].lastName %></td>
 		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
+		    <a type="button" class="btn bg-olive" href="http://localhost:8080/workers/update?workerId=<%= workers[i]._id %>">Modify</a>
+		    <a type="button" class="btn bg-olive" href="http://localhost:8080/workers/delete?workerId=<%= workers[i]._id %>">Delete</a></td>
                 </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
-                <tr>
-                  <td>12e54r84r2zr</td>
-                  <td>Da Silva
-                  </td>
-                  <td>Daniel</td>
-		  <td>
-		    <a type="button" class="btn bg-olive" href="/admin/companion/573b5ac97055b976d9eff8a1/update">Modify</a></td>
-                </tr>
+<% } %>
+
                 </tbody>
                 <tfoot>
                   <tr>
@@ -408,8 +401,17 @@
 <!-- page script -->
 <script>
   $(function () {
-  $(".select2").select2();
-    $("#example1").DataTable();
+  <!-- $(".select2").select2(); -->
+  $(".js-example-basic-single").select2({
+  placeholder: "Select a worker"
+  });
+
+
+  <!-- $(".js-example-placeholder-single").select2({ -->
+  <!-- placeholder: "Select a state", -->
+  <!-- allowClear: true -->
+  <!-- }); -->
+  <!--   $("#example1").DataTable(); -->
     $('#example2').DataTable({
       "paging": true,
       "lengthChange": false,

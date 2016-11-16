@@ -299,8 +299,15 @@
 
 	      <!-- /.box-header -->
 	      <!-- form start -->
-	      <form id="createCompanion" role="form">
-		<div class="box-body">
+	      <form id="createCompanion" role="form" action="http://localhost:8080/workers/create" method="post">
+ 	     <% if (error == true) {%>
+              <div class="alert alert-warning alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <h4><i class="icon fa fa-warning"></i> Alert!</h4>
+                <%= message  %>
+              </div>
+ 	     <% } %>
+	      <div class="box-body">
 		  
 		  <div class="form-group">
 		    <label for="registrationNumber">Registration number</label>

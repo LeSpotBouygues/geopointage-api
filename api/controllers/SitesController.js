@@ -1,6 +1,8 @@
-var express = require('express'),
-    jsend = require('jsend'),
-    bodyParser = require('body-parser');
+var express = require('express');
+var jsend = require('jsend');
+var bodyParser = require('body-parser');
+
+var Site = require('./../models/site')
 
 var router = express.Router();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -13,7 +15,11 @@ router.use(jsend.middleware);
  */
 router.get('/', function(req, res, next) {
     // TODO: Get a list of site based on the passed criteria
-    res.status(501).jsend.success(null);
+    Site.find(function(err, sites) {
+	if (err)
+	    res.fail(err);
+	res.status(200).jsend.success(sites);
+    });
 });
 
 /**
@@ -30,12 +36,35 @@ router.get('/:siteId', function(req, res) {
  * Create a site
  */
 router.post('/', urlencodedParser, function(req, res) {
-    // TODO: Create a site
-    if (!req.body.name) {
+     if (!req.body.address) {
 	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-					    name: 'a name is required' });
+					    name: 'a address is required' });
     }
-    res.status(501).jsend.success(null);
+    if (!req.body.latitude) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
+					    name: 'a latitude is required' });
+    }
+    if (!req.body.longitude) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
+					    name: 'a longitude is required' });
+    }
+    if (!req.body.login) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
+					    name: 'a login is required' });
+    }
+    
+    var site = new Site();
+
+    site.address = req.body.address;
+    site.latitude = req.body.latitude;
+    site.longitude = req.body.longitude;
+    site.login = req.body.login;
+    
+    site.save(function(err) {
+	if (err)
+	    res.send(err);
+	res.status(201).jsend.success({ message: 'Site created!' });
+    });
 });
 
 /**
@@ -53,7 +82,13 @@ router.put('/:siteId', function(req, res) {
  */
 router.delete('/:siteId', function(req, res) {
     // TODO: Delete a site based on the passed site ID
-    res.status(501).jsend.success(null);
+    Site.remove({
+	_id: req.params.siteId
+    }, function(err, site) {
+	if (err)
+	    res.send(err);
+	res.status(201).jsend.success({ message: 'Site Successfully deleted' });
+    });
 });
 
 /**

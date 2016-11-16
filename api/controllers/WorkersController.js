@@ -45,7 +45,7 @@ router.get('/:workerId', function(req, res) {
  */
 router.post('/', urlencodedParser, function(req, res) {
     // TODO: Create a worker
-    if (!req.body.firstName) {
+     if (!req.body.firstName) {
 	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
 					    name: 'a first name is required' });
     }
@@ -109,7 +109,6 @@ router.delete('/:workerId', function(req, res) {
 	    res.send(err);
 	res.status(201).jsend.success({ message: 'Worker Successfully deleted' });
     });
-    // res.status(501).jsend.success(null);
 });
 
 /**
