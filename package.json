@@ -1,0 +1,22 @@
+{
+    "name": "geopointage-api",
+    "main": "app.js",
+    "scripts": {
+	"start": "node index.js",
+    },
+    "repository": {
+	"type": "git",
+	"url": "git+https://github.com/LeSpotBouygues/geopointage-api.git"
+    },
+    "author": "muceres",
+    "bugs": {
+	"url": "https://github.com/LeSpotBouygues/geopointage-api/issues"
+    },
+    "homepage": "https://github.com/LeSpotBouygues/geopointage-api#readme",
+    "engines": {
+	"node": "6.2.2"
+    },
+    "dependencies": {
+    }
+
+}
