@@ -20,7 +20,7 @@ router.use(function(req, res, next) {
  * Get a list of workers
  */
 router.get('/', function(req, res, next) {
-    res.render('workerList.ejs' );
+    res.render('workerList.ejs');
 });
 
 /**

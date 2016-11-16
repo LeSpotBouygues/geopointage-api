@@ -22,10 +22,10 @@ router.use(function(req, res, next) {
  */
 router.get('/', function(req, res, next) {
     // TODO: Get a list of workers based on the passed criteria
-    Worker.find(function(err, worker) {
+    Worker.find(function(err, workers) {
 	if (err)
 	    res.fail(err);
-	res.status(200).jsend.success(worker);
+	res.status(200).jsend.success(workers);
     });
     // res.status(501).jsend.success(null);
 });
@@ -45,14 +45,22 @@ router.get('/:workerId', function(req, res) {
  */
 router.post('/', urlencodedParser, function(req, res) {
     // TODO: Create a worker
-    if (!req.body.name) {
+    if (!req.body.firstName) {
 	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-					    name: 'a name is required' });
+					    name: 'a first name is required' });
     }
-
+    if (!req.body.lastName) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
+					    name: 'a last name is required' });
+    }
+    if (!req.body.registrationNumber) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
+					    name: 'a registration number is required' });
+    }
     var worker = new Worker();
-    worker.name = req.body.name;
+
     worker.firstName = req.body.firstName;
+    worker.lastName = req.body.lastName;
     worker.registrationNumber = req.body.registrationNumber;
 
     worker.save(function(err) {
@@ -60,8 +68,6 @@ router.post('/', urlencodedParser, function(req, res) {
 	    res.send(err);
 	res.status(201).jsend.success({ message: 'Worker created!' });
     });
-            
-
 });
 
 /**
