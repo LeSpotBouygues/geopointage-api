@@ -36,7 +36,11 @@ router.get('/', function(req, res, next) {
  */
 router.get('/:workerId', function(req, res) {
     // TODO: Get a worker based on the passed worker ID
-    res.status(501).jsend.success(null);
+    Worker.findById(req.params.workerId, function(err, worker) {
+	if (err)
+	    res.fail(err);
+	res.status(200).jsend.success(worker);
+    });
 });
 
 /**
@@ -74,7 +78,7 @@ router.post('/', urlencodedParser, function(req, res) {
  * PUT /workers/:workerId
  * Modify a worker based on the passed worker ID 
  */
-router.put('/:workerId', function(req, res) {
+router.put('/:workerId', urlencodedParser, function(req, res) {
     // TODO: Modify a worker based on the passed worker ID
 
     Worker.findById(req.params.workerId, function(err, worker) {

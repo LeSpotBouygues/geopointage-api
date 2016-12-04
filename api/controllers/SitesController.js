@@ -6,6 +6,7 @@ var Site = require('./../models/site')
 
 var router = express.Router();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var request = require('request');
 
 router.use(jsend.middleware);
 
@@ -27,8 +28,12 @@ router.get('/', function(req, res, next) {
  * Get a site based on the passed site ID 
  */
 router.get('/:siteId', function(req, res) {
-    // TODO: Get a site based on the passed site ID
-    res.status(501).jsend.success(null);
+    // TODO: Get a worker based on the passed worker ID
+    Site.findById(req.params.siteId, function(err, site) {
+	if (err)
+	    res.fail(err);
+	res.status(200).jsend.success(site);
+    });
 });
 
 /**
@@ -40,41 +45,42 @@ router.post('/', urlencodedParser, function(req, res) {
 	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
 					    name: 'a address is required' });
     }
-    if (!req.body.latitude) {
-	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-					    name: 'a latitude is required' });
-    }
-    if (!req.body.longitude) {
-	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-					    name: 'a longitude is required' });
-    }
+    // if (!req.body.latitude) {
+    // 	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
+    // 					    name: 'a latitude is required' });
+    // }
+    // if (!req.body.longitude) {
+    // 	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
+    // 					    name: 'a longitude is required' });
+    // }
     if (!req.body.login) {
-	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-					    name: 'a login is required' });
+    	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
+    					    name: 'a login is required' });
     }
     
     var site = new Site();
 
-    site.address = req.body.address;
-    site.latitude = req.body.latitude;
-    site.longitude = req.body.longitude;
-    site.login = req.body.login;
+    var test = unescape(encodeURIComponent(req.body.address.replace(/ /g, "+")));
     
-    site.save(function(err) {
-	if (err)
-	    res.send(err);
-	res.status(201).jsend.success({ message: 'Site created!' });
+    // 107+Rue+Moliere+94200+Ivry-sur-Seine
+    console.log(req.body.address.replace(/ /g, "+"));
+    request.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + test + "&key=AIzaSyAoE-Zx8XsKGMztFOWBpZTwVWa9YzyZ6w8&callback=initMap", function(err, response, body) {
+	var data = JSON.parse(body);
+	// console.log(body);
+
+	site.address = req.body.address;
+	site.latitude = data.results[0].geometry.location.lat;
+	site.longitude = data.results[0].geometry.location.lng;
+	site.login = req.body.login;
+	
+	site.save(function(err) {
+    	    if (err)
+    		res.send(err);
+    	    res.status(201).jsend.success({ message: 'Site created!' });
+	});
     });
 });
 
-/**
- * PUT /sitess/:siteId
- * Modify a site based on the passed site ID 
- */
-router.put('/:siteId', function(req, res) {
-    // TODO: Modify a site based on the passed site ID
-    res.status(501).jsend.success(null);
-});
 
 /**
  * DELETE /sites/:siteId
@@ -98,6 +104,96 @@ router.delete('/:siteId', function(req, res) {
 router.get('/import', function(req, res) {
     // TODO: Get site(s) based on a search
     res.status(501).jsend.success(null);
+});
+
+
+/**
+ * GET /sites/:siteId
+ * Get a site based on the passed site ID 
+ */
+router.get('/:siteId/comments', function(req, res) {
+    // TODO: Get a worker based on the passed worker ID
+    Site.findById(req.params.siteId, function(err, site) {
+	if (err)
+	    res.fail(err);
+	res.status(200).jsend.success(site.comments);
+    });
+});
+
+/**
+ * GET /:siteId/comments/commentId
+ * Get a site based on the passed site ID 
+ */
+router.get('/:siteId/comments/:commentId', function(req, res) {
+    // TODO: Get a worker based on the passed worker ID
+    Site.findById(req.params.siteId, function(err, site) {
+	if (err)
+	    res.fail(err);
+	res.status(200).jsend.success(site.comments.id(req.params.commentId));
+    });
+});
+
+/**
+ * POST /:siteId/comments
+ * Create a comment
+ */
+router.post('/:siteId/comments', urlencodedParser, function(req, res) {
+    Site.findById(req.params.siteId, function(err, site) {
+	if (err)
+	    res.fail(err);
+	
+	site.comments.push({
+	    body: req.body.body,
+	    firstName: req.body.firstName,
+	    lastName: req.body.lastName
+	});
+	
+	site.save(function(err) {
+    	    if (err)
+    		res.send(err);
+    	    res.status(201).jsend.success({ message: 'Comment created!' });
+	});
+    });
+});
+
+/**
+ * PUT /:siteId/comments/commentId
+ * Get a site based on the passed site ID 
+ */
+router.put('/:siteId/comments/:commentId', urlencodedParser, function(req, res) {
+    // TODO: Get a worker based on the passed worker ID
+    Site.findById(req.params.siteId, function(err, site) {
+	if (err)
+	    res.fail(err);
+	site.comments.id(req.params.commentId).body = req.body.body;
+	site.comments.id(req.params.commentId).firstName = req.body.firstName;
+	site.comments.id(req.params.commentId).lastName = req.body.lastName;
+
+	site.save(function(err) {
+    	    if (err)
+    		res.send(err);
+    	    res.status(201).jsend.success({ message: 'Comment updated!' });
+	});
+    });
+});
+
+/**
+ * DELETE /:siteId/comments
+ * Create a comment
+ */
+router.delete('/:siteId/comments/:commentId', urlencodedParser, function(req, res) {
+    Site.findById(req.params.siteId, function(err, site) {
+	if (err)
+	    res.fail(err);
+	
+	site.comments.id(req.params.commentId).remove();
+	
+	site.save(function(err) {
+    	    if (err)
+    		res.send(err);
+    	    res.status(201).jsend.success({ message: 'Comment deleted' });
+	});
+    });
 });
 
 module.exports = router;

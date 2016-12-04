@@ -26,7 +26,7 @@ router.post('/', urlencodedParser, function(req, res) {
 	console.log(req.body.user);
 	console.log(req.body.password);
 	if (req.body.user == "admin" && req.body.password == "admin") {
-	    res.render('siteList.ejs');
+	    res.redirect('/workers');
 	} else {
 	    res.render('login.ejs', {error: "user or password invalid."});
 	}
