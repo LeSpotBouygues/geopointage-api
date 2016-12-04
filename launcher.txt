@@ -1,0 +1,6 @@
+1 - node index.js
+2 - CTRL + Z
+3 - bg (ligne de commande)
+4 - node website.js
+5 - CTRL + Z
+6 - bg (ligne de commande)
