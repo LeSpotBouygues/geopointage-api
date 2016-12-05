@@ -41,22 +41,10 @@ router.get('/:siteId', function(req, res) {
  * Create a site
  */
 router.post('/', urlencodedParser, function(req, res) {
-     if (!req.body.address) {
-	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-					    name: 'a address is required' });
+     if (!req.body.address || !req.body.login) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters' });
     }
-    // if (!req.body.latitude) {
-    // 	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-    // 					    name: 'a latitude is required' });
-    // }
-    // if (!req.body.longitude) {
-    // 	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-    // 					    name: 'a longitude is required' });
-    // }
-    if (!req.body.login) {
-    	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-    					    name: 'a login is required' });
-    }
+
     
     var site = new Site();
 
@@ -64,7 +52,8 @@ router.post('/', urlencodedParser, function(req, res) {
     
     // 107+Rue+Moliere+94200+Ivry-sur-Seine
     console.log(req.body.address.replace(/ /g, "+"));
-    request.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + test + "&key=AIzaSyAoE-Zx8XsKGMztFOWBpZTwVWa9YzyZ6w8&callback=initMap", function(err, response, body) {
+    request.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + test +
+		"&key=AIzaSyAoE-Zx8XsKGMztFOWBpZTwVWa9YzyZ6w8&callback=initMap", function(err, response, body) {
 	var data = JSON.parse(body);
 	// console.log(body);
 
@@ -93,7 +82,7 @@ router.delete('/:siteId', function(req, res) {
     }, function(err, site) {
 	if (err)
 	    res.send(err);
-	res.status(201).jsend.success({ message: 'Site Successfully deleted' });
+	res.status(204).jsend.success({ message: 'Site deleted!' });
     });
 });
 
@@ -138,6 +127,10 @@ router.get('/:siteId/comments/:commentId', function(req, res) {
  * Create a comment
  */
 router.post('/:siteId/comments', urlencodedParser, function(req, res) {
+     if (!req.body.body || !req.body.firstName || !req.body.lastName) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters' });
+    }
+    
     Site.findById(req.params.siteId, function(err, site) {
 	if (err)
 	    res.fail(err);
@@ -161,7 +154,10 @@ router.post('/:siteId/comments', urlencodedParser, function(req, res) {
  * Get a site based on the passed site ID 
  */
 router.put('/:siteId/comments/:commentId', urlencodedParser, function(req, res) {
-    // TODO: Get a worker based on the passed worker ID
+     if (!req.body.body || !req.body.firstName || !req.body.lastName) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters' });
+    }
+    
     Site.findById(req.params.siteId, function(err, site) {
 	if (err)
 	    res.fail(err);
@@ -172,7 +168,7 @@ router.put('/:siteId/comments/:commentId', urlencodedParser, function(req, res) 
 	site.save(function(err) {
     	    if (err)
     		res.send(err);
-    	    res.status(201).jsend.success({ message: 'Comment updated!' });
+    	    res.status(204).jsend.success({ message: 'Comment updated!' });
 	});
     });
 });
@@ -191,7 +187,7 @@ router.delete('/:siteId/comments/:commentId', urlencodedParser, function(req, re
 	site.save(function(err) {
     	    if (err)
     		res.send(err);
-    	    res.status(201).jsend.success({ message: 'Comment deleted' });
+    	    res.status(204).jsend.success({ message: 'Comment deleted' });
 	});
     });
 });
