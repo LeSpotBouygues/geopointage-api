@@ -49,18 +49,10 @@ router.get('/:workerId', function(req, res) {
  */
 router.post('/', urlencodedParser, function(req, res) {
     // TODO: Create a worker
-     if (!req.body.firstName) {
-	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-					    name: 'a first name is required' });
+     if (!req.body.firstName || !req.body.lastName || !req.body.registrationNumber) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters'});
     }
-    if (!req.body.lastName) {
-	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-					    name: 'a last name is required' });
-    }
-    if (!req.body.registrationNumber) {
-	return res.status(400).jsend.fail({ error_code: 'missing_parameters',
-					    name: 'a registration number is required' });
-    }
+
     var worker = new Worker();
 
     worker.firstName = req.body.firstName;
@@ -81,6 +73,10 @@ router.post('/', urlencodedParser, function(req, res) {
 router.put('/:workerId', urlencodedParser, function(req, res) {
     // TODO: Modify a worker based on the passed worker ID
 
+    if (!req.body.firstName || !req.body.lastName || !req.body.registrationNumber) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters'});
+    }
+    
     Worker.findById(req.params.workerId, function(err, worker) {
 	if (err)
 	    res.send(err);
@@ -93,7 +89,7 @@ router.put('/:workerId', urlencodedParser, function(req, res) {
 	worker.save(function(err) {
 	    if (err)
 		res.send(err);
-	    res.status(201).jsend.success({ message: 'Worker updated!' });
+	    res.status(204).jsend.success({ message: 'Worker updated!' });
 	});
     });
     
@@ -111,7 +107,7 @@ router.delete('/:workerId', function(req, res) {
     }, function(err, worker) {
 	if (err)
 	    res.send(err);
-	res.status(201).jsend.success({ message: 'Worker Successfully deleted' });
+	res.status(204).jsend.success({ message: 'Worker deleted!' });
     });
 });
 
