@@ -34,6 +34,7 @@ l'URL est http://geopointage.lespot-bouygues.com/
   }
 }
 ```
+
 `POST /sites` (Créer un site de constuction)
 - body parametre(s)
   - address: String **[required]**
@@ -45,6 +46,7 @@ l'URL est http://geopointage.lespot-bouygues.com/
    "data": "Site created!"
 }
 ```
+
 `DELETE /sites/:siteId` (supprimer un site de construction selon son Id) 
 - URL parametre(s)
   - siteId: String **[required]**
@@ -55,6 +57,7 @@ l'URL est http://geopointage.lespot-bouygues.com/
    "data": "Site deleted!"
 }
 ```
+
 #### Routes pour le controller Workers (compagnon)
 
 `GET /workers` (afficher les compagnons)
@@ -87,9 +90,9 @@ l'URL est http://geopointage.lespot-bouygues.com/
  - URL parametre(s)
    - workerId: String **[required]**
  - body parametre(s)
-  - firstName: String
-  - lastName: String
-  - registrationNumber: String
+  - firstName: String **[required]**
+  - lastName: String **[required]**
+  - registrationNumber: String **[required]**
  - Success Response: (code 200)
 ```
 {
@@ -106,5 +109,73 @@ l'URL est http://geopointage.lespot-bouygues.com/
 {
    "status": "success",
    "data": "Worker deleted!"
+}
+```
+
+#### Routes pour le controller Comments (coommentaires)
+Un site de construction est associé à plusieurs commentaires.
+
+`GET /sites/:siteId/comments` (afficher les commentaires d'un site de construction)
+- Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": [... tableau de commentaires ...]
+}
+```
+
+`GET /sites/:siteId/comments/:commentId` (affichier un commentaire selon son Id) 
+- URL parametre(s)
+  - siteId: String **[required]**
+  - commentId: String **[required]**
+- Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": {
+  }
+}
+```
+
+`POST /sites/siteId/comments` (Créer un commentaire)
+- URL parametre(s)
+  - siteId: String **[required]**
+- body parametre(s)
+  - body: String **[required]**
+  - firstName: String **[required]**  (prénom auteur)
+  - lastName: String **[required]**  (nom auteur)
+- Success Response: (code 201)
+```
+{
+   "status": "success",
+   "data": "Comment created!"
+}
+```
+
+`PUT /sites/siteId/comments/:commentId` (Update un commentaire)
+- URL parametre(s)
+  - siteId: String **[required]**
+  - commentId: String **[required]**
+- body parametre(s)
+  - body: String **[required]**
+  - firstName: String **[required]**  (prénom auteur)
+  - lastName: String **[required]**  (nom auteur)
+- Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": "Comment updated!"
+}
+```
+
+`DELETE /sites/siteId/comments/:commentId` (Supprimer un commentaire)
+- URL parametre(s)
+  - siteId: String **[required]**
+  - commentId: String **[required]**
+- Success Response: (code 201)
+```
+{
+   "status": "success",
+   "data": "Comment deleted!"
 }
 ```
