@@ -1,5 +1,10 @@
 # geopointage-api
 
+Ajouter l'extention de version devant les routes pour chaques call fait à l'api (ex: POST /v0/sites).
+
+La version actuelle est la version v0.
+Le port d'accès à l'api est 8081.
+l'URL est http://geopointage.lespot-bouygues.com/
 
 #### Routes pour le controller Sites (site de construction)
 
@@ -24,6 +29,7 @@
 `POST /sites` (Créer un site de constuction)
 - body parametre(s)
   - address: String **[required]**
+  - login: String **[required]**  (login == iotp)
  - Success Response: (code 200)
 ```
 {
@@ -31,7 +37,9 @@
    "data": [... tableau de site ...]
 }
 ```
-`Delete /sites/:siteId` (supprimer un site de construction selon son Id) 
+`DELETE /sites/:siteId` (supprimer un site de construction selon son Id) 
+ - URL parametre(s)
+   - siteId: String **[required]**
 
 #### Routes pour le controller Workers (compagnon)
 
@@ -54,4 +62,6 @@
   - lastName: String
   - registrationNumber: String
 
-`Delete /workers/:workerId` (supprimer un worker selon son Id) 
+`DELETE /workers/:workerId` (supprimer un worker selon son Id) 
+ - URL parametre(s)
+   - workerId: String **[required]**
