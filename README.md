@@ -9,6 +9,14 @@ l'URL est http://geopointage.lespot-bouygues.com/
 #### Routes pour le controller Sites (site de construction)
 
 `GET /sites` (affichier les sites de constructions)
+ - Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": [... tableau de site ...]
+}
+```
+
 `GET /sites/:siteId` (affichier un site de construction selon son Id) 
 - URL parametre(s)
   - siteId: String **[required]**
@@ -30,38 +38,73 @@ l'URL est http://geopointage.lespot-bouygues.com/
 - body parametre(s)
   - address: String **[required]**
   - login: String **[required]**  (login == iotp)
- - Success Response: (code 200)
+ - Success Response: (code 201)
 ```
 {
    "status": "success",
-   "data": [... tableau de site ...]
+   "data": "Site created!"
 }
 ```
 `DELETE /sites/:siteId` (supprimer un site de construction selon son Id) 
  - URL parametre(s)
    - siteId: String **[required]**
-
+ - Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": "Site deleted!"
+}
+```
 #### Routes pour le controller Workers (compagnon)
 
 `GET /workers` (afficher les compagnons)
+ - Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": [... tableau de compagnon ...]
+}
+```
+
 `GET /workers/:workerId` (affichier un compagnon selon son Id) 
 - URL parametre(s)
   - workerId: String **[required]**
 
- `POST /worker` (Créer un compagnon)
+`POST /worker` (Créer un compagnon)
 - body parametre(s)
   - firstName: String **[required]**
   - lastName: String **[required]**
   - registrationNumber: String **[required]**
+ - Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": "Worker created!"
+}
+```
 
- `PUT /worker/:workerId` (Modifier un compagnon)
+`PUT /worker/:workerId` (Modifier un compagnon)
  - URL parametre(s)
    - workerId: String **[required]**
 - body parametre(s)
   - firstName: String
   - lastName: String
   - registrationNumber: String
+ - Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": "Worker updated!"
+}
+```
 
 `DELETE /workers/:workerId` (supprimer un worker selon son Id) 
  - URL parametre(s)
    - workerId: String **[required]**
+ - Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": "Worker deleted!"
+}
+```
