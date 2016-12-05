@@ -42,19 +42,25 @@ l'URL est http://geopointage.lespot-bouygues.com/
 - Success Response: (code 201)
 ```
 {
-   "status": "success",
-   "data": "Site created!"
+  "status": "success",
+  "data": {
+    "message": "Site created!"
+  }
 }
 ```
 
 `DELETE /sites/:siteId` (supprimer un site de construction selon son Id) 
 - URL parametre(s)
   - siteId: String **[required]**
-- Success Response: (code 200)
+- Success Response: (code 204)
 ```
 {
-   "status": "success",
-   "data": "Site deleted!"
+  "status": "success",
+  "data": {
+    "message": {
+       "Site deleted!"
+    }
+  }
 }
 ```
 
@@ -72,17 +78,33 @@ l'URL est http://geopointage.lespot-bouygues.com/
 `GET /workers/:workerId` (affichier un compagnon selon son Id) 
 - URL parametre(s)
   - workerId: String **[required]**
+- Success Response: (code 200)
+```
+{
+  "status": "success",
+  "data": {
+    "registrationNumber": "121d5f4dfd7df54",
+    "lastName": "Gonzales",
+    "firstName": "Paulo",
+    "_id": "5845bebb3eeee71cf56abf0c",
+    "__v": 0
+  }
+}
+```
+
 
 `POST /worker` (Créer un compagnon)
 - body parametre(s)
   - firstName: String **[required]**
   - lastName: String **[required]**
   - registrationNumber: String **[required]**
-- Success Response: (code 200)
+- Success Response: (code 201)
 ```
 {
-   "status": "success",
-   "data": "Worker created!"
+  "status": "success",
+  "data": {
+    "message": "Worker created!"
+  }
 }
 ```
 
@@ -93,7 +115,7 @@ l'URL est http://geopointage.lespot-bouygues.com/
   - firstName: String **[required]**
   - lastName: String **[required]**
   - registrationNumber: String **[required]**
- - Success Response: (code 200)
+ - Success Response: (code 204)
 ```
 {
    "status": "success",
@@ -104,7 +126,7 @@ l'URL est http://geopointage.lespot-bouygues.com/
 `DELETE /workers/:workerId` (supprimer un worker selon son Id) 
  - URL parametre(s)
    - workerId: String **[required]**
- - Success Response: (code 200)
+ - Success Response: (code 204)
 ```
 {
    "status": "success",
@@ -148,7 +170,9 @@ Un site de construction est associé à plusieurs commentaires.
 ```
 {
    "status": "success",
-   "data": "Comment created!"
+   "data": {
+      "Comment created!"
+   /}
 }
 ```
 
@@ -164,7 +188,9 @@ Un site de construction est associé à plusieurs commentaires.
 ```
 {
    "status": "success",
-   "data": "Comment updated!"
+   "data": {
+      "Comment updated!"
+   }
 }
 ```
 
@@ -176,6 +202,8 @@ Un site de construction est associé à plusieurs commentaires.
 ```
 {
    "status": "success",
-   "data": "Comment deleted!"
+   "data": {
+      "Comment deleted!"
+   }
 }
 ```
