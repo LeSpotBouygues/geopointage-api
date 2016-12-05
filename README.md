@@ -1,6 +1,6 @@
 # geopointage-api
 
-Ajouter l'extention de version devant les routes pour chaques call fait à l'api (ex: POST /v0/sites).
+Ajouter l'extention de version devant les routes pour chaques call fait à l'api (ex: GET /v0/sites).
 
 La version actuelle est la version v0.
 Le port d'accès à l'api est 8081.
