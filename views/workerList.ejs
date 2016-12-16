@@ -38,7 +38,7 @@
   <![endif]-->
     <script>    
     function deleteWorker(id) {
-       if (confirm('Voulez-vous vraiment supprimer ce site ?')) {
+       if (confirm('Voulez-vous vraiment supprimer ce compagnon ?')) {
           alert('Element supprimé');
           window.location.replace("http://localhost:8080/workers/delete?workerId=" + id);
        }
@@ -90,7 +90,7 @@
 	    </div>
 	    <!-- /.box-header -->
 	    <!-- form start -->
-	    <form id="findCompanionForUpdate" role="form" action="http://localhost:8080/workers/update" method="get">
+	    <form id="findCompanionForUpdate" role="form" action="http://localhost:8080/workers/update" method="post">
 	      <div class="box-body">
 		<div class="form-group">
 		  <label for="exampleInputFile">Selectionner un compagnon</label>
@@ -241,7 +241,7 @@
                   <td><%= workers[i].firstName %></td>
                   <td><%= workers[i].lastName %></td>
 		  <td>
-		    <a type="button" class="btn bg-olive" href="http://localhost:8080/workers/update?workerId=<%= workers[i]._id %>">Modify</a>
+		    <a type="button" class="btn bg-olive" href="http://localhost:8080/workers/update/<%= workers[i]._id %>">Modify</a>
 		    <a type="button" class="btn bg-olive" onclick="deleteWorker('<%= workers[i]._id %>')">Delete</a>
 		  </td>
                 </tr>
@@ -273,7 +273,6 @@
 
 
 
-	
 
 
 

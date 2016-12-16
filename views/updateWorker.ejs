@@ -293,13 +293,13 @@
 	    <!-- general form elements -->
 	    <div class="box box-primary">
 	      <div class="box-header with-border">
-		<h3 class="box-title">Update Worker</h3>
+		<h3 class="box-title">Modifier Compagnon</h3>
 	      </div>
 
 
 	      <!-- /.box-header -->
 	      <!-- form start -->
-	      <form id="createCompanion" role="form" action="http://localhost:8080/workers/create" method="post">
+	      <form id="createCompanion" role="form" action="http://localhost:8080/workers/update/<%= data._id %>" method="post">
  	     <% if (error == true) {%>
               <div class="alert alert-warning alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
@@ -310,19 +310,17 @@
 	      <div class="box-body">
 		  
 		  <div class="form-group">
-		    <label for="registrationNumber">Registration number</label>
-		    <input class="form-control" id="registrationNumber" name="registrationNumber" placeholder="Registration Number" type="text">
+		    <label for="registrationNumber">Identifiant</label>
+		    <input class="form-control" id="registrationNumber" name="registrationNumber" placeholder="Identifiant" type="text" value="<%= data.registrationNumber %>">
 		  </div>
 
-
-
 		  <div class="form-group">
-		    <label for="firstName">First Name</label>
-		    <input class="form-control" id="firstName" name="firstName" placeholder="First Name" type="text">
+		    <label for="firstName">Prénom</label>
+		    <input class="form-control" id="firstName" name="firstName" placeholder="Prénom" type="text" value="<%= data.firstName %>">
 		  </div>
 		  <div class="form-group">
-		    <label for="lastName">Last Name</label>
-		    <input class="form-control" id="lastName" name="lastName" placeholder="Last Name" type="text">
+		    <label for="lastName">Nom</label>
+		    <input class="form-control" id="lastName" name="lastName" placeholder="Nom" type="text" value="<%= data.lastName %>">
 		  </div>
 
 		  <!-- <div class="form-group"> -->
@@ -332,7 +330,7 @@
 		  <!-- /.box-body -->
 
 		  <div class="box-footer">
-		    <button class="btn btn-primary">Update Worker</button>
+		    <button class="btn btn-primary">modifier compagnon</button>
 		  </div>
 		</div>
 	      </form>

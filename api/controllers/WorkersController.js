@@ -7,6 +7,8 @@ var Worker = require('./../models/worker')
 
 var router = express.Router();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var xlsx = require('node-xlsx');
+
 
 router.use(jsend.middleware);
 
@@ -21,13 +23,41 @@ router.use(function(req, res, next) {
  * Get a list of workers
  */
 router.get('/', function(req, res, next) {
-    // TODO: Get a list of workers based on the passed criteria
     Worker.find(function(err, workers) {
 	if (err)
 	    res.fail(err);
 	res.status(200).jsend.success(workers);
     });
-    // res.status(501).jsend.success(null);
+});
+
+
+router.get('/import', function(req, res, next) {
+
+    var obj = xlsx.parse('/tmp/my-uploads/spot.xlsx');
+
+    var worker = new Worker();
+    
+    var workers = [];
+    
+    obj = obj[0].data;
+
+    for (var i = 1; i < obj.length; i++) {
+	var worker = {
+	    firstName: obj[i][9],
+	    lastName: obj[i][8],
+	    registrationNumber: obj[i][1]
+	};
+	workers.push(worker);
+    	// console.log("lastName = " + obj[i][8] + " ;firstName = " + obj[i][9] + " ;identifiant = " + obj[i][1]);
+    }
+
+    Worker.collection.insert(workers, function(err) {
+	if (err)
+	    res.send(err);
+	res.status(201).jsend.success({ message: 'Workers created!' });
+    });
+    
+    // res.status(200).jsend.success(obj);
 });
 
 /**
@@ -80,9 +110,9 @@ router.put('/:workerId', urlencodedParser, function(req, res) {
     Worker.findById(req.params.workerId, function(err, worker) {
 	if (err)
 	    res.send(err);
-	
-	worker.name = req.body.name;
+
 	worker.firstName = req.body.firstName;
+	worker.lastName = req.body.lastName;
 	worker.registrationNumber = req.body.registrationNumber;
 	
 	// save the bear
@@ -115,9 +145,5 @@ router.delete('/:workerId', function(req, res) {
  * GET /workers/import
  * Get cubes based on the passed criteria 
  */
-router.get('/import', function(req, res) {
-    // TODO: Get worker(s) based on a search
-    res.status(501).jsend.success(null);
-});
 
 module.exports = router;

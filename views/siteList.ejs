@@ -169,7 +169,7 @@
                 <tbody>
 <% for(var i=0; i < sites.length; i++) { %>
                 <tr>
-                  <td><%= sites[i].address %></td>
+                  <td onclick="changeCenter(<%= sites[i].latitude %>, <%= sites[i].longitude %>)"><%= sites[i].address %></td>
                   <td><%= sites[i].latitude %></td>
                   <td><%= sites[i].longitude %></td>
                   <td><%= sites[i].login %></td>
@@ -354,9 +354,11 @@
 </script>
 
 <script>
+  var map;
+  
   function initMap() {
   var uluru = {lat: 48.8192741, lng: 2.3870529};
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
   zoom: 20,
   center: uluru
   });
@@ -368,7 +370,7 @@
 
   var locations = [
   <% for(var i=0; i < sites.length; i++) { %>
-  {lat: <%= sites[i].latitude %>, lng: <%= sites[i].longitude %> },
+  {lat: <%= sites[i].latitude %>, lng: <%= sites[i].longitude %>, address: '<%= sites[i].address %>'},
   <% } %>
   ]
 
@@ -378,24 +380,38 @@
      new google.maps.LatLng(<%= sites[i].latitude %>, <%= sites[i].longitude %>),
   <% } %>
   ]; 
+
+
+  
+
   
   var markers = locations.map(function(location, i) {
-     return new google.maps.Marker({
-        position: location,
+     var marker = new google.maps.Marker({
+        position: {lat: location.lat, lng: location.lng},
         map: map
-     });
+  });
+  marker.info = new google.maps.InfoWindow({
+  content: location.address
+  });
+  marker.info.open(map, marker);
+  return marker;
   });
 
 
+  
 
   var latlngbounds = new google.maps.LatLngBounds();
   for (var i = 0; i < latlng.length; i++) {
-		      latlngbounds.extend(latlng[i]);
-		      }
-		      map.fitBounds(latlngbounds);
-
-  
+     latlngbounds.extend(latlng[i]);
   }
+  map.fitBounds(latlngbounds);
+		      }
+
+   function changeCenter(lat, long) {
+		      var coor = {lat: lat, lng: long};
+		      var pt = new google.maps.LatLng(lat, long);
+		        map.setCenter(pt);
+   }
 </script>
 
 

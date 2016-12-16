@@ -29,14 +29,6 @@ router.get('/', function(req, res, next) {
     });
 });
 
-/**
- * POST /workers
- * Create a worker
- */
-router.post('/', urlencodedParser, function(req, res) {
-    res.render('siteList.ejs' );
-});
-
 
 router.get('/create', function(req, res, next) {
     res.render('createWorker.ejs', {url: url, error: false, message:"Fields are missing"});
@@ -57,10 +49,49 @@ router.post('/create', urlencodedParser, function(req, res, next) {
     }
 });
 
+router.get('/update/:workerId', function(req, res, next) {
+    request.get({url: "http://localhost:8081/v0/workers/" + req.params.workerId},
+		function(err, response, body) {
+		    var data = JSON.parse(body);
+		    res.render('updateWorker.ejs', {url: url, error: false,
+						    message:"Certains champs sont manquants", data: data.data});
+		});
+});
+
+router.post('/update', urlencodedParser, function(req, res, next) {
+    res.redirect('update/' + req.body.workerId);
+});
+
+router.post('/update/:workerId', urlencodedParser, function(req, res, next) {
+
+    if (!req.body.firstName || !req.body.lastName || !req.body.registrationNumber) {
+
+	var data = {
+	    registrationNumber: req.body.registrationNumber,
+	    firstName: req.body.firstName,
+	    lastName: req.body.lastName
+	}
+	
+	res.render('updateWorker.ejs', {url: url, error: true,
+							message:"Certains champs sont manquants", data: data});
+
+    }
+    else {
+	request.put({url: "http://localhost:8081/v0/workers/" + req.params.workerId,
+		      form: {firstName: req.body.firstName,
+			     lastName: req.body.lastName,
+			     registrationNumber: req.body.registrationNumber }}, function(err, response, body) {
+	    res.redirect('/workers');
+	});
+    }
+});
+
 router.get('/delete', function(req, res, next) {
-    request.delete("http://localhost:8081/v0/workers/" + req.query.workerId, function(err, response, body) {
-	res.redirect('/workers');
-    });
+    if (req.query.workerId) {
+	request.delete("http://localhost:8081/v0/workers/" + req.query.workerId, function(err, response, body) {
+	    res.redirect('/workers');
+	});
+    }
 });
 
 module.exports = router;

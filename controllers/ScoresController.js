@@ -4,6 +4,9 @@ var bodyParser = require('body-parser');
 
 var router = express.Router();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
+var request = require('request');
+
+var moment = require('moment');
 
 router.use(jsend.middleware);
 
@@ -20,7 +23,18 @@ router.use(function(req, res, next) {
  * Get a list of workers
  */
 router.get('/', function(req, res, next) {
-    res.render('scoreList.ejs' );
+    request.get("http://localhost:8081/v0/scores", function(err, response, body) {
+	var data = JSON.parse(body);
+	//	console.log(data);
+	for (var i = 0; i < data.data.length;i++) {
+	    data.data[i].date = moment(data.data[i].date).format("DD-MM-YYYY");
+	    // console.log(moment(scores[i].date).format("DD-MM-YYYY"));
+	}
+
+	
+	res.render('scoreList.ejs', {scores: data.data});
+    });
+    
 });
 
 module.exports = router;

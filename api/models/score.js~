@@ -2,10 +2,14 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var PointageSchema   = new Schema({
-    registrationNumber: String,
+    login: String,
     constructionSite: String,
     date: Date,
     numberOfHours: Number
+    worker: {
+	firstName: String,
+	lastName: String
+    }
 });
 
 module.exports = mongoose.model('Pointage', PointageSchema);
