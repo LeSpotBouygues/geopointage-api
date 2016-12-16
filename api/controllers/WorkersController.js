@@ -1,7 +1,6 @@
 var express = require('express');
 var jsend = require('jsend');
 var bodyParser = require('body-parser');
-
 var Worker = require('./../models/worker')
 
 

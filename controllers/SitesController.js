@@ -1,14 +1,14 @@
 var express = require('express');
 var jsend = require('jsend');
 var bodyParser = require('body-parser');
-
+var link = require('./../link');
 var router = express.Router();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var request = require('request');
 
 router.use(jsend.middleware);
 
-var url = "http://localhost:8080/"
+var url = link;
 
 router.use(function(req, res, next) {
     // do logging

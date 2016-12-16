@@ -1,7 +1,7 @@
 var express = require('express');
 var jsend = require('jsend');
 var bodyParser = require('body-parser');
-
+var link = require('./../link');
 var router = express.Router();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var fs = require("fs");
@@ -20,7 +20,7 @@ var storage = multer.diskStorage({
 })
 var upload = multer({ storage: storage });
 
-var url = "http://localhost:8080/";
+var url = link;
 var date = new Date();
 
 router.use(jsend.middleware);
