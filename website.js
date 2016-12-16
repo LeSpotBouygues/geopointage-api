@@ -2,7 +2,7 @@ var express = require('express');
 var app = require('./app');
 var mongoose = require('mongoose');
 var path = require('path');
-
+var link = require('./link');
 mongoose.connect('mongodb://localhost/geo');
 
 // Web Controllers
@@ -25,4 +25,4 @@ app.use('/scores', scores);
 
 
 app.listen(webPort);
-console.log("Web site has been launched on http://localhost:" + webPort)
+console.log("Web site has been launched on " + link)
