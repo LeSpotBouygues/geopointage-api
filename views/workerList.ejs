@@ -241,7 +241,7 @@
                   <td><%= workers[i].firstName %></td>
                   <td><%= workers[i].lastName %></td>
 		  <td>
-		    <a type="button" class="btn bg-olive" href="http://localhost:8080/workers/update/<%= workers[i]._id %>">Modify</a>
+		    <a type="button" class="btn bg-olive" href="/workers/update/<%= workers[i]._id %>">Modify</a>
 		    <a type="button" class="btn bg-olive" onclick="deleteWorker('<%= workers[i]._id %>')">Delete</a>
 		  </td>
                 </tr>
