@@ -9,7 +9,7 @@ router.use(jsend.middleware);
 
 router.use(function(req, res, next) {
     // do logging
-    console.log('Something is happening.');
+    // console.log('Something is happening.');
     next();
 });
 
@@ -23,8 +23,8 @@ router.post('/', urlencodedParser, function(req, res) {
 	res.render('login.ejs', {error: "user or password invalid."});
     }
     else {
-	console.log(req.body.user);
-	console.log(req.body.password);
+	// console.log(req.body.user);
+	// console.log(req.body.password);
 	if (req.body.user == "admin" && req.body.password == "admin") {
 	    res.redirect('/workers');
 	} else {

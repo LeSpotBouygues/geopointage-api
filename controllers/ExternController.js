@@ -52,7 +52,7 @@ router.get('/export', function(req, res, next) {
 
 router.post('/export', urlencodedParser, function(req, res, next) {
 
-    console.log(req.body);
+    // console.log(req.body);
         // create a file to stream archive data to.
     var output = fs.createWriteStream(__dirname + '/export.zip');
     var archive = archiver('zip', {
@@ -61,8 +61,8 @@ router.post('/export', urlencodedParser, function(req, res, next) {
 
     // listen for all archive data to be written
     output.on('close', function() {
-    	console.log(archive.pointer() + ' total bytes');
-    	console.log('archiver has been finalized and the output file descriptor has closed.');
+    	// console.log(archive.pointer() + ' total bytes');
+    	// console.log('archiver has been finalized and the output file descriptor has closed.');
     });
 
     // good practice to catch this error explicitly
