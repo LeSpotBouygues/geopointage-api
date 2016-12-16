@@ -7,6 +7,8 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false });
 var fs = require("fs");
 var request = require('request');
 var multer  = require('multer');
+var archiver = require('archiver');
+
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -48,8 +50,49 @@ router.get('/export', function(req, res, next) {
     res.render('export.ejs' , {url: url});
 });
 
-router.post('/', function(req, res, next) {
-    res.render('export.ejs' , {url: url});
+router.post('/export', urlencodedParser, function(req, res, next) {
+
+    console.log(req.body);
+        // create a file to stream archive data to.
+    var output = fs.createWriteStream(__dirname + '/export.zip');
+    var archive = archiver('zip', {
+    	store: true // Sets the compression method to STORE.
+    });
+
+    // listen for all archive data to be written
+    output.on('close', function() {
+    	console.log(archive.pointer() + ' total bytes');
+    	console.log('archiver has been finalized and the output file descriptor has closed.');
+    });
+
+    // good practice to catch this error explicitly
+    archive.on('error', function(err) {
+    	throw err;
+    });
+
+    // pipe archive data to the file
+    archive.pipe(output);
+
+
+    // append a file from string
+    archive.append('string cheese!', { name: 'file2.txt' });
+
+    // append a file from buffer
+    var buffer3 = new Buffer('buff it!');
+    archive.append(buffer3, { name: 'file3.txt' });
+
+    // append a file
+    // archive.file('file1.txt', { name: 'file4.txt' });
+
+    // append files from a directory
+    // archive.directory('subdir/');
+
+    // append files from a glob pattern
+    // archive.glob('subdir/*.txt');
+
+    // finalize the archive (ie we are done appending files but streams have to finish yet)
+    archive.finalize();
+    res.download(__dirname + '/export.zip');
 });
 
 
