@@ -40,7 +40,7 @@
     function deleteWorker(id) {
        if (confirm('Voulez-vous vraiment supprimer ce compagnon ?')) {
           alert('Element supprimé');
-          window.location.replace("http://localhost:8080/workers/delete?workerId=" + id);
+          window.location.replace("/workers/delete?workerId=" + id);
        }
     }
    </script>
@@ -90,7 +90,7 @@
 	    </div>
 	    <!-- /.box-header -->
 	    <!-- form start -->
-	    <form id="findCompanionForUpdate" role="form" action="http://localhost:8080/workers/update" method="post">
+	    <form id="findCompanionForUpdate" role="form" action="/workers/update" method="post">
 	      <div class="box-body">
 		<div class="form-group">
 		  <label for="exampleInputFile">Selectionner un compagnon</label>
