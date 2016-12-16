@@ -11,10 +11,9 @@ router.use(jsend.middleware);
 
 var url = link;
 
-router.use(function(req, res, next) {
-    // do logging
-    next(); // make sure we go to the next routes and don't stop here
-});
+// router.use(function(req, res, next) {
+//     next(); // make sure we go to the next routes and don't stop here
+// });
 
 /**
  * GET /workers
