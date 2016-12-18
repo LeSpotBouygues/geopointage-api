@@ -235,7 +235,7 @@ Un site de construction est associé à plusieurs commentaires.
 - Sample Request:
 ```
 {
-  "body": "[{login: 'id001', address: '1 rue blabla', date:'10-12-2016', numberOfHours: '2', worker: { firstName:"Samuel", lastName: 'JOSET'} }, {login: 'id002', address: '6 rue ha', date:'2-10-2006', numberOfHours: '4', worker: { firstName:"David", lastName: 'Haga'} }]"
+  "body": "[{login: 'id001', address: '1 rue blabla', date:'10-12-2016', numberOfHours: '2', worker: { firstName:'Samuel', lastName: 'JOSET'} }, {login: 'id002', address: '6 rue ha', date:'2-10-2006', numberOfHours: '4', worker: { firstName:'David', lastName: 'Haga'} }]"
 }
 ```
 
