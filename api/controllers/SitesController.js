@@ -181,7 +181,7 @@ router.post('/:siteId/comments', urlencodedParser, function(req, res) {
  * POST /byEotp/:siteId/comments
  * Create a comment
  */
-router.post('/byeotp/:eotp/comments', urlencodedParser, function(req, res) {
+router.post('/byEotp/:eotp/comments', urlencodedParser, function(req, res) {
      if (!req.body.body || !req.body.firstName || !req.body.lastName) {
 	return res.status(400).jsend.fail({ error_code: 'missing_parameters' });
     }
@@ -190,15 +190,13 @@ router.post('/byeotp/:eotp/comments', urlencodedParser, function(req, res) {
 	if (err) {
 	    res.fail(err);
 	} else {
-	    // console.log(site);
-
-	    site.comments.push({
+	    site[0].comments.push({
 		body: req.body.body,
 		firstName: req.body.firstName,
 		lastName: req.body.lastName
 	    });
 	
-	    site.save(function(err) {
+	    site[0].save(function(err) {
     		if (err)
     		    res.jsend.fail(err);
 		else
