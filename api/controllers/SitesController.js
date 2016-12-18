@@ -18,8 +18,9 @@ router.get('/', function(req, res, next) {
     // TODO: Get a list of site based on the passed criteria
     Site.find(function(err, sites) {
 	if (err)
-	    res.fail(err);
-	res.status(200).jsend.success(sites);
+	    res.jsend.fail(err);
+	else
+	    res.status(200).jsend.success(sites);
     });
 });
 
@@ -31,8 +32,9 @@ router.get('/:siteId', function(req, res) {
     // TODO: Get a worker based on the passed worker ID
     Site.findById(req.params.siteId, function(err, site) {
 	if (err)
-	    res.fail(err);
-	res.status(200).jsend.success(site);
+	    res.jsend.fail(err);
+	else
+	    res.status(200).jsend.success(site);
     });
 });
 
@@ -64,12 +66,25 @@ router.post('/', urlencodedParser, function(req, res) {
 	
 	site.save(function(err) {
     	    if (err)
-    		res.send(err);
-    	    res.status(201).jsend.success({ message: 'Site created!' });
+    		res.jsend.fail(err);
+	    else
+    		res.status(201).jsend.success({ message: 'Site created!' });
 	});
     });
 });
 
+/**
+ * GET /sites/byEotp/:eotp
+ * Get a worker based on the passed worker ID 
+ */
+router.get('/byEotp/:eotp', function(req, res) {
+    // TODO: Get a worker based on the passed worker ID
+    Site.find({login: req.params.eotp}, function(err, site) {
+	if (err)
+	    res.fail(err);
+	res.status(200).jsend.success(site);
+    });
+});
 
 /**
  * DELETE /sites/:siteId
@@ -81,20 +96,27 @@ router.delete('/:siteId', function(req, res) {
 	_id: req.params.siteId
     }, function(err, site) {
 	if (err)
-	    res.send(err);
-	res.status(204).jsend.success({ message: 'Site deleted!' });
+	    res.jsend.fail(err);
+	else
+	    res.status(204).jsend.success({ message: 'Site deleted!' });
     });
 });
 
 /**
- * GET /sites/import
- * Get sites based on the passed criteria 
+ * DELETE /sites/byEotp/:eotp
+ * Delete a site based on the passed site ID 
  */
-router.get('/import', function(req, res) {
-    // TODO: Get site(s) based on a search
-    res.status(501).jsend.success(null);
+router.delete('/byEotp/:eotp', function(req, res) {
+    // TODO: Delete a site based on the passed site ID
+    Site.remove({
+	login: req.params.eotp
+    }, function(err, site) {
+	if (err)
+	    res.jsend.fail(err);
+	else
+	    res.status(204).jsend.success({ message: 'Site deleted!' });
+    });
 });
-
 
 /**
  * GET /sites/:siteId
@@ -104,8 +126,9 @@ router.get('/:siteId/comments', function(req, res) {
     // TODO: Get a worker based on the passed worker ID
     Site.findById(req.params.siteId, function(err, site) {
 	if (err)
-	    res.fail(err);
-	res.status(200).jsend.success(site.comments);
+	    res.jsend.fail(err);
+	else
+	    res.status(200).jsend.success(site.comments);
     });
 });
 
@@ -117,8 +140,11 @@ router.get('/:siteId/comments/:commentId', function(req, res) {
     // TODO: Get a worker based on the passed worker ID
     Site.findById(req.params.siteId, function(err, site) {
 	if (err)
-	    res.fail(err);
-	res.status(200).jsend.success(site.comments.id(req.params.commentId));
+	    res.jsend.fail(err);
+	else if (site.comments.id(req.params.commentId) == null)
+	    res.jsend.fail(err);
+	else
+	    res.status(200).jsend.success(site.comments.id(req.params.commentId));
     });
 });
 
@@ -132,20 +158,22 @@ router.post('/:siteId/comments', urlencodedParser, function(req, res) {
     }
     
     Site.findById(req.params.siteId, function(err, site) {
-	if (err)
+	if (err) {
 	    res.fail(err);
+	} else {
+	    site.comments.push({
+		body: req.body.body,
+		firstName: req.body.firstName,
+		lastName: req.body.lastName
+	    });
 	
-	site.comments.push({
-	    body: req.body.body,
-	    firstName: req.body.firstName,
-	    lastName: req.body.lastName
-	});
-	
-	site.save(function(err) {
-    	    if (err)
-    		res.send(err);
-    	    res.status(201).jsend.success({ message: 'Comment created!' });
-	});
+	    site.save(function(err) {
+    		if (err)
+    		    res.jsend.fail(err);
+		else
+    		    res.status(201).jsend.success({ message: 'Comment created!' });
+	    });
+	}
     });
 });
 
@@ -159,17 +187,22 @@ router.put('/:siteId/comments/:commentId', urlencodedParser, function(req, res) 
     }
     
     Site.findById(req.params.siteId, function(err, site) {
-	if (err)
-	    res.fail(err);
-	site.comments.id(req.params.commentId).body = req.body.body;
-	site.comments.id(req.params.commentId).firstName = req.body.firstName;
-	site.comments.id(req.params.commentId).lastName = req.body.lastName;
+	if (err) {
+	    res.jsend.fail(err);
+	} else if (site.comments.id(req.params.commentId) == null) {
+    	    res.jsend.fail(err);
+	} else {
+	    site.comments.id(req.params.commentId).body = req.body.body;
+	    site.comments.id(req.params.commentId).firstName = req.body.firstName;
+	    site.comments.id(req.params.commentId).lastName = req.body.lastName;
 
-	site.save(function(err) {
-    	    if (err)
-    		res.send(err);
-    	    res.status(204).jsend.success({ message: 'Comment updated!' });
-	});
+	    site.save(function(err) {
+    		if (err)
+    		    res.jsend.fail(err);
+		else
+    		    res.status(204).jsend.success({ message: 'Comment updated!' });
+	    });
+	}
     });
 });
 
@@ -179,16 +212,20 @@ router.put('/:siteId/comments/:commentId', urlencodedParser, function(req, res) 
  */
 router.delete('/:siteId/comments/:commentId', urlencodedParser, function(req, res) {
     Site.findById(req.params.siteId, function(err, site) {
-	if (err)
-	    res.fail(err);
-	
-	site.comments.id(req.params.commentId).remove();
-	
-	site.save(function(err) {
-    	    if (err)
-    		res.send(err);
-    	    res.status(204).jsend.success({ message: 'Comment deleted' });
-	});
+	if (err) {
+	    res.jsend.fail(err);
+	} else if (site.comments.id(req.params.commentId) == null) {
+    	    res.jsend.fail(err);
+	} else {
+	    site.comments.id(req.params.commentId).remove();
+	    
+	    site.save(function(err) {
+    		if (err)
+    		    res.jsend.fail(err);
+		else
+    		    res.status(204).jsend.success({ message: 'Comment deleted' });
+	    });
+	}
     });
 });
 

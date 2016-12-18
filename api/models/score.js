@@ -12,4 +12,4 @@ var ScoreSchema   = new Schema({
     }
 });
 
-module.exports = mongoose.model('Pointage', ScoreSchema);
+module.exports = mongoose.model('Score', ScoreSchema);

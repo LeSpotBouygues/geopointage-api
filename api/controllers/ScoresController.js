@@ -64,6 +64,56 @@ router.post('/', urlencodedParser, function(req, res) {
     });
 });
 
+
+
+router.post('/import', urlencodedParser, function(req, res, next) {
+    if (!req.body.body) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters'});
+    }
+
+    var score = new Score();
+    
+    var scores = [];
+
+    // var body = "[{login: 'id001', address: '1 rue blabla', date:'10-12-2016', numberOfHours: '2', worker: { firstName:'Samuel', lastName: 'JOSET'} }, {login: 'id002', address: '6 rue ha', date:'2-10-2006', numberOfHours: '4', worker: { firstName:'David', lastName: 'Haga'} }]";
+    
+    var body = JSON.stringify(eval("(" + req.body.body + ")"));
+    
+    body = JSON.parse(body);
+
+    for (var i = 0; i < body.length; i++) {
+
+	var st = body[i].date;
+	var pattern = /(\d{2})\-(\d{2})\-(\d{4})/;
+	var dt = new Date(st.replace(pattern,'$3-$2-$1'));
+
+	var score = {
+	    login: body[i].login,
+	    address: body[i].address,
+	    date: dt,
+	    numberOfHours: body[i].numberOfHours,
+	    worker: {
+		firstName: body[i].worker.firstName,
+		lastName: body[i].worker.lastName
+	    }
+	};
+
+	scores.push(score);
+    	// console.log("lastName = " + obj[i][8] + " ;firstName = " + obj[i][9] + " ;identifiant = " + obj[i][1]);
+    }
+
+    console.log(scores);
+    Score.collection.insert(scores, function(err) {
+	if (err) {
+	    console.log(err);
+	    return res.jsend.fail(err);
+	}
+	res.status(201).jsend.success({ message: 'Scores created!' });
+    });
+    
+    // res.status(200).jsend.success(obj);
+});
+
 /**
  * PUT /scoress/:scoreId
  * Modify a score based on the passed scores ID 
