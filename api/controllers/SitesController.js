@@ -53,7 +53,7 @@ router.post('/', urlencodedParser, function(req, res) {
     var test = unescape(encodeURIComponent(req.body.address.replace(/ /g, "+")));
     
     // 107+Rue+Moliere+94200+Ivry-sur-Seine
-    console.log(req.body.address.replace(/ /g, "+"));
+    // console.log(req.body.address.replace(/ /g, "+"));
     request.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + test +
 		"&key=AIzaSyAoE-Zx8XsKGMztFOWBpZTwVWa9YzyZ6w8&callback=initMap", function(err, response, body) {
 	var data = JSON.parse(body);
