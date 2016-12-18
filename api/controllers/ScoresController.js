@@ -102,10 +102,10 @@ router.post('/import', urlencodedParser, function(req, res, next) {
     	// console.log("lastName = " + obj[i][8] + " ;firstName = " + obj[i][9] + " ;identifiant = " + obj[i][1]);
     }
 
-    console.log(scores);
+    // console.log(scores);
     Score.collection.insert(scores, function(err) {
 	if (err) {
-	    console.log(err);
+	    // console.log(err);
 	    return res.jsend.fail(err);
 	}
 	res.status(201).jsend.success({ message: 'Scores created!' });
