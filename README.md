@@ -35,6 +35,25 @@ l'URL est http://geopointage.lespot-bouygues.com/
 }
 ```
 
+`GET /sites/byEotp/:eotp` (affichier un site de construction selon son l'eotp) 
+- URL parametre(s)
+  - eotp: String **[required]**
+- Success Response: (code 200)
+```
+{
+   "status": "success",
+   "data": {
+    "_id": "58443935988d8c165e1cf94b",
+    "address": "14 Boulevard Paul Vaillant Couturier 94200 Ivry-sur-Seine France ",
+    "latitude": 48.8202056,
+    "login": "id002",
+    "longitude": 2.3952589,
+    "comments": [...tableau des commentaires...]
+  }
+}
+```
+
+
 `POST /sites` (Créer un site de constuction)
 - body parametre(s)
   - address: String **[required]**
@@ -205,5 +224,27 @@ Un site de construction est associé à plusieurs commentaires.
    "data": {
       "Comment deleted!"
    }
+}
+```
+
+#### Routes pour le controller Score (pointage)
+
+`POST /scores/import` (importer des taches)
+- body parametre(s)
+  - body: String **[required]** (un tableau d'object "tâche" sous forme de string)
+- Sample Request:
+```
+{
+  "body": "[{login: 'id001', address: '1 rue blabla', date:'10-12-2016', numberOfHours: '2', worker: { firstName:"Samuel", lastName: 'JOSET'} }, {login: 'id002', address: '6 rue ha', date:'2-10-2006', numberOfHours: '4', worker: { firstName:"David", lastName: 'Haga'} }]"
+}
+```
+
+- Success Response: (code 200)
+```
+{
+  "status": "success",
+  "data": {
+    "message": "Scores created!"
+  }
 }
 ```
