@@ -178,6 +178,35 @@ router.post('/:siteId/comments', urlencodedParser, function(req, res) {
 });
 
 /**
+ * POST /byEotp/:siteId/comments
+ * Create a comment
+ */
+router.post('/byeotp/:eotp/comments', urlencodedParser, function(req, res) {
+     if (!req.body.body || !req.body.firstName || !req.body.lastName) {
+	return res.status(400).jsend.fail({ error_code: 'missing_parameters' });
+    }
+    
+    Site.find({login: req.params.eotp}, function(err, site) {
+	if (err) {
+	    res.fail(err);
+	} else {
+	    site.comments.push({
+		body: req.body.body,
+		firstName: req.body.firstName,
+		lastName: req.body.lastName
+	    });
+	
+	    site.save(function(err) {
+    		if (err)
+    		    res.jsend.fail(err);
+		else
+    		    res.status(201).jsend.success({ message: 'Comment created!' });
+	    });
+	}
+    });
+});
+
+/**
  * PUT /:siteId/comments/commentId
  * Get a site based on the passed site ID 
  */
