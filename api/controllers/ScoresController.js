@@ -133,4 +133,35 @@ router.delete('/:scoreId', function(req, res) {
 });
 
 
+/**
+ * GET /scores/:scoreId
+ * Get a scores based on the passed score ID 
+ */
+router.get('/from/:dateFrom/to/:dateTo', function(req, res) {
+
+    var from = req.params.dateFrom.split('-');
+    var to = req.params.dateTo.split('-');
+
+    var stringToInt = function (x) {
+	return  parseInt(x);
+    };
+
+    from = from.map(stringToInt);
+    to = to.map(stringToInt);
+    
+    var criteria = {
+	"date": {
+	    "$gte": new Date(from[2], from[1] - 1, from[0]),
+	    "$lt": new Date(to[2], to[1] - 1, to[0])
+	} 
+    };
+
+    Score.find(criteria, function(err, score) {
+	if (err)
+	    res.fail(err);
+	else
+	    res.status(200).jsend.success(score);
+    });
+});
+
 module.exports = router;

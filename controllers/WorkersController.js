@@ -11,10 +11,6 @@ router.use(jsend.middleware);
 
 var url = link;
 
-// router.use(function(req, res, next) {
-//     next(); // make sure we go to the next routes and don't stop here
-// });
-
 /**
  * GET /workers
  * Get a list of workers
@@ -33,7 +29,6 @@ router.get('/create', function(req, res, next) {
 });
 
 router.post('/create', urlencodedParser, function(req, res, next) {
-
     if (!req.body.firstName || !req.body.lastName || !req.body.registrationNumber) {
 	res.render('createWorker.ejs', {url: url, error: true, message:"Fields are missing"});
     }
@@ -61,7 +56,6 @@ router.post('/update', urlencodedParser, function(req, res, next) {
 });
 
 router.post('/update/:workerId', urlencodedParser, function(req, res, next) {
-
     if (!req.body.firstName || !req.body.lastName || !req.body.registrationNumber) {
 
 	var data = {

@@ -51,48 +51,53 @@ router.get('/export', function(req, res, next) {
 });
 
 router.post('/export', urlencodedParser, function(req, res, next) {
+    request.get({url: "http://localhost:8081" + "/v0/scores/from/" + req.body.from + "/to/" + req.body.to},
+    		function(err, response, body) {
+    		    data = JSON.parse(body);
+		    if (data.data != []) {			
+			var array = data.data.map(function (x) {
+			    var str = x.login + "¤¤" + x.address + "¤¤" + x.date + "¤¤" + x.numberOfHours + "¤¤" +
+				x.worker.firstName + "¤¤" + x.worker.lastName;
+			    return str;
+			});
 
-    // console.log(req.body);
-        // create a file to stream archive data to.
-    var output = fs.createWriteStream(__dirname + '/export.zip');
-    var archive = archiver('zip', {
-    	store: true // Sets the compression method to STORE.
-    });
-
-    // listen for all archive data to be written
-    output.on('close', function() {
-    	// console.log(archive.pointer() + ' total bytes');
-    	// console.log('archiver has been finalized and the output file descriptor has closed.');
-    });
-
-    // good practice to catch this error explicitly
-    archive.on('error', function(err) {
-    	throw err;
-    });
-
-    // pipe archive data to the file
-    archive.pipe(output);
+			fs.writeFile(__dirname + '/pointages.csv', '\ufeff' + '¤¤' +
+				     array.join('¤¤¤¤¤¤\n') + '¤¤¤¤¤¤\n',
+				     function (err) {
+					 if (err) {
+					     console.log(err)   
+					     return res.err(err);
+					 } else {
+					     res.download(__dirname + '/pointages.csv');
+					 }
+				     });
 
 
-    // append a file from string
-    archive.append('string cheese!', { name: 'file2.txt' });
+			
+			// var output = fs.createWriteStream(__dirname + '/export.zip');
+			// var archive = archiver('zip', {
+    			//     store: true // Sets the compression method to STORE.
+			// });
+			
 
-    // append a file from buffer
-    var buffer3 = new Buffer('buff it!');
-    archive.append(buffer3, { name: 'file3.txt' });
-
-    // append a file
-    // archive.file('file1.txt', { name: 'file4.txt' });
-
-    // append files from a directory
-    // archive.directory('subdir/');
-
-    // append files from a glob pattern
-    // archive.glob('subdir/*.txt');
-
-    // finalize the archive (ie we are done appending files but streams have to finish yet)
-    archive.finalize();
-    res.download(__dirname + '/export.zip');
+			// output.on('close', function() {
+			// });
+		    
+			// archive.on('error', function(err) {
+    			//     throw err;
+			// });
+		    
+			// archive.pipe(output);
+		    
+			// archive.append('\ufeff' + '¤¤' + array.join('¤¤¤¤¤¤\n'), { name: 'pointages.csv' });
+			
+			// archive.finalize();
+			// res.download(__dirname + '/export.zip');
+		    }
+		    else {
+			res.render('export.ejs' , {url: url});
+		    }
+    		});
 });
 
 

@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 var ScoreSchema   = new Schema({
     login: String,
     address: String,
-    date: Date,
+   date: Date,
     numberOfHours: Number,
     worker: {
 	firstName: String,

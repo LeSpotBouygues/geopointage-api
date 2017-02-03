@@ -276,19 +276,27 @@
   });
 </script>
 <script>
+
+
+
+  
   $( function() {
-  var dateFormat = "mm/dd/yy",
-  from = $( "#from" )
+  var dateFormat = "dd-mm-yyyy";
+  
+  var from = $( "#from" )
   .datepicker({
   defaultDate: "+1w",
+  format: dateFormat,
   changeMonth: true,
   numberOfMonths: 3
   })
   .on( "change", function() {
   to.datepicker( "option", "minDate", getDate( this ) );
-  }),
-  to = $( "#to" ).datepicker({
+  });
+  
+  var to = $( "#to" ).datepicker({
   defaultDate: "+1w",
+  format: dateFormat,
   changeMonth: true,
   numberOfMonths: 3
   })
@@ -299,14 +307,14 @@
   function getDate( element ) {
   var date;
   try {
-  date = $.datepicker.parseDate( dateFormat, element.value );
+  date = $.datepicker.parseDate(dateFormat, element.value );
   } catch( error ) {
   date = null;
   }
-
   return date;
   }
-  } );
+  }
+  );
     </script>
 </body>
 </html>
