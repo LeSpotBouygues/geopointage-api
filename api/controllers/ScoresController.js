@@ -85,10 +85,6 @@ router.post('/import', urlencodedParser, function(req, res, next) {
 	    var st = body[i].date;
 	    var pattern = /(\d{2})\-(\d{2})\-(\d{4})/;
 	    var dt = new Date(st.replace(pattern,'$3-$2-$1'));
-
-	    console.log("firstName : " + body[i].workers[j]);
-	    console.log("firstName : " + body[i].workers[j].firstName);
-	    console.log("lastName : " + body[i].workers[j].lastName);
 	    
 	    var score = {
 		login: body[i].login,
@@ -111,8 +107,6 @@ router.post('/import', urlencodedParser, function(req, res, next) {
 	    res.status(201).jsend.success({ message: 'Scores created!' });
 	}
     });
-    
-    // res.status(200).jsend.success(obj);
 });
 
 /**

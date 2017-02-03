@@ -51,7 +51,7 @@ router.get('/export', function(req, res, next) {
 });
 
 router.post('/export', urlencodedParser, function(req, res, next) {
-    request.get({url: "http://localhost:8081" + "/v0/scores/from/" + req.body.from + "/to/" + req.body.to},
+    request.get({url: "http://localhost:8081/v0/scores/from/" + req.body.from + "/to/" + req.body.to},
     		function(err, response, body) {
     		    data = JSON.parse(body);
 		    if (data.data != []) {			
