@@ -25,7 +25,8 @@ router.get('/', function(req, res, next) {
     Worker.find(function(err, workers) {
 	if (err)
 	    res.fail(err);
-	res.status(200).jsend.success(workers);
+	else
+	    res.status(200).jsend.success(workers);
     });
 });
 
@@ -53,7 +54,8 @@ router.get('/import', function(req, res, next) {
     Worker.collection.insert(workers, function(err) {
 	if (err)
 	    res.send(err);
-	res.status(201).jsend.success({ message: 'Workers created!' });
+	else
+	    res.status(201).jsend.success({ message: 'Workers created!' });
     });
     
     // res.status(200).jsend.success(obj);
@@ -68,7 +70,8 @@ router.get('/:workerId', function(req, res) {
     Worker.findById(req.params.workerId, function(err, worker) {
 	if (err)
 	    res.fail(err);
-	res.status(200).jsend.success(worker);
+	else
+	    res.status(200).jsend.success(worker);
     });
 });
 
@@ -91,7 +94,8 @@ router.post('/', urlencodedParser, function(req, res) {
     worker.save(function(err) {
 	if (err)
 	    res.send(err);
-	res.status(201).jsend.success({ message: 'Worker created!' });
+	else
+	    res.status(201).jsend.success({ message: 'Worker created!' });
     });
 });
 
@@ -118,7 +122,8 @@ router.put('/:workerId', urlencodedParser, function(req, res) {
 	worker.save(function(err) {
 	    if (err)
 		res.send(err);
-	    res.status(204).jsend.success({ message: 'Worker updated!' });
+	    else
+		res.status(204).jsend.success({ message: 'Worker updated!' });
 	});
     });
     
@@ -136,13 +141,9 @@ router.delete('/:workerId', function(req, res) {
     }, function(err, worker) {
 	if (err)
 	    res.send(err);
-	res.status(204).jsend.success({ message: 'Worker deleted!' });
+	else
+	    res.status(204).jsend.success({ message: 'Worker deleted!' });
     });
 });
-
-/**
- * GET /workers/import
- * Get cubes based on the passed criteria 
- */
 
 module.exports = router;

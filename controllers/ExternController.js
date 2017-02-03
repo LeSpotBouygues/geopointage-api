@@ -65,7 +65,6 @@ router.post('/export', urlencodedParser, function(req, res, next) {
 				     array.join('¤¤¤¤¤¤\n') + '¤¤¤¤¤¤\n',
 				     function (err) {
 					 if (err) {
-					     console.log(err)   
 					     return res.err(err);
 					 } else {
 					     res.download(__dirname + '/pointages.csv');

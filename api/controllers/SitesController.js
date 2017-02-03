@@ -82,7 +82,8 @@ router.get('/byEotp/:eotp', function(req, res) {
     Site.find({login: req.params.eotp}, function(err, site) {
 	if (err)
 	    res.fail(err);
-	res.status(200).jsend.success(site);
+	else
+	    res.status(200).jsend.success(site);
     });
 });
 

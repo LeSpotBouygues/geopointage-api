@@ -17,7 +17,8 @@ router.get('/', function(req, res, next) {
     Score.find(function(err, scores) {
 	if (err)
 	    res.fail(err);
-	res.status(200).jsend.success(scores);
+	else
+	    res.status(200).jsend.success(scores);
     });
 });
 
@@ -29,7 +30,8 @@ router.get('/:scoreId', function(req, res) {
     Score.findById(req.params.scoreId, function(err, score) {
 	if (err)
 	    res.fail(err);
-	res.status(200).jsend.success(score);
+	else
+	    res.status(200).jsend.success(score);
     });
 });
 
@@ -60,7 +62,8 @@ router.post('/', urlencodedParser, function(req, res) {
     score.save(function(err) {
 	if (err)
 	    res.send(err);
-	res.status(201).jsend.success({ message: 'Score created!' });
+	else
+	    res.status(201).jsend.success({ message: 'Score created!' });
     });
 });
 
@@ -102,8 +105,9 @@ router.post('/import', urlencodedParser, function(req, res, next) {
     Score.collection.insert(scores, function(err) {
 	if (err) {
 	    return res.jsend.fail(err);
+	} else {
+	    res.status(201).jsend.success({ message: 'Scores created!' });
 	}
-	res.status(201).jsend.success({ message: 'Scores created!' });
     });
     
     // res.status(200).jsend.success(obj);
@@ -128,7 +132,8 @@ router.delete('/:scoreId', function(req, res) {
     }, function(err, score) {
 	if (err)
 	    res.send(err);
-	res.status(204).jsend.success({ message: 'Score deleted!' });
+	else
+	    res.status(204).jsend.success({ message: 'Score deleted!' });
     });
 });
 
