@@ -77,8 +77,6 @@ router.post('/import', urlencodedParser, function(req, res, next) {
     var score = new Score();
     
     var scores = [];
-
-    // var body2 = "[{login: 'id001', address: '1 rue blabla', date:'10-12-2016', numberOfHours: '2', worker: { firstName:'Samuel', lastName: 'JOSET'} }, {login: 'id002', address: '6 rue ha', date:'2-10-2006', numberOfHours: '4', worker: { firstName:'David', lastName: 'Haga'} }]";
     
     var body = JSON.parse(req.body.body);
 
